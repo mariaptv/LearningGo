@@ -1,10 +1,17 @@
 package main
 
-import {
+import (
 	"fmt"
-	"nethttp"
-}
+	"net/http"
+)
 
-func main(){
-	http.HandleFunc("/", func( w http.ResposeWriter))
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		n, err := fmt.Fprint(w, "Hello, World")
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(fmt.Sprintf("Number of bytes: %d", n))
+	})
+	_ = http.ListenAndServe(":8080", nil)
 }
