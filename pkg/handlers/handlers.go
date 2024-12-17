@@ -1,16 +1,18 @@
-package main
+package handlers
 
 import (
 	"net/http"
+
+	"github.com/mariaptv/go-course/pkg/render"
 )
 
 // If it starts with uppercase the function is public, else is private
 func Home(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "home.page.tmpl")
+	render.RenderTemplate(w, "home.html")
 }
 
 func About(w http.ResponseWriter, r *http.Request) {
 
-	renderTemplate(w, "about.page.tmpl")
+	render.RenderTemplate(w, "about.html")
 
 }
