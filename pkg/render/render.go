@@ -18,14 +18,19 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 var tc = make(map[string]*template.Template)
 
-func RenderTemplateTest(w http.ResponseWriter, t string){
+func RenderTemplateTest(w http.ResponseWriter, t string) {
 	var tmpl *template.Template
 	var err error
 
 	//check if we already have the template in our cache
 	_, inMap := tc[t]
-	if !inMap{
+	if !inMap {
 		//need to create the template
+		log.Println("creating template and adding to cache")
+		err = createTemplateCache(t)
+		if err != nil {
+			log.Println(err)
+		}
 
 	} else {
 		log.Println("using cached template")
@@ -36,11 +41,15 @@ func RenderTemplateTest(w http.ResponseWriter, t string){
 
 func createTemplateCache(t string) error {
 	templates := []string{
-		fmt.Sprintf("./templates/%s",t),
+		fmt.Sprintf("./templates/%s", t),
 		"./templates/base.layout.tmpl",
 	}
 	tmpl, err := template.ParseFiles(templates...)
 	if err != nil {
-		retur err
+		return err
 	}
+
+	// add template to cache
+	tc[t] = tmpl
+	return nil
 }
